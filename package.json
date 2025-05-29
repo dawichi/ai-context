@@ -9,7 +9,7 @@
         "aictx": "./dist/cli.js"
     },
     "scripts": {
-        "dev": "bun run src/cli.ts",
+        "dev": "bun src/cli.ts",
         "build": "bun build ./src/cli.ts --outdir ./dist --target bun",
         "prepublishOnly": "bun run build"
     },
@@ -33,5 +33,8 @@
         "dist",
         "README.md",
         "LICENSE"
-    ]
+    ],
+    "dependencies": {
+        "commander": "^14.0.0"
+    }
 }
