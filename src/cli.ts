@@ -88,25 +88,38 @@ async function generateContextFile(config: ResolvedAiContextConfig): Promise<voi
     }
 
     console.log('\n🔍 Finding files matching patterns...')
-    const glob = new Glob(config.patterns)
-    const filesToInclude: string[] = []
-
-    // Scan from the current working directory.
-    // Bun.Glob scans relative to cwd by default.
-    // We use path.relative to ensure the paths in comments are clean and relative.
+    const matchedFilePaths = new Set<string>() // Use a Set to store unique file paths
     const cwd = process.cwd()
 
-    for await (const file of glob.scan('.')) {
-        filesToInclude.push(path.relative(cwd, file)) // Store relative paths
+    for (const pattern of config.patterns) {
+        // Bun.Glob expects a single pattern string.
+        // It also supports "ignore" patterns if they start with "!" directly within its own logic,
+        // but for combining multiple include/exclude patterns from an array,
+        // we'd typically handle includes first, then filter excludes, or use a library
+        // that supports complex pattern arrays.
+        // For now, let's assume patterns are mostly includes, or simple "!" prefixes handled by Bun.Glob.
+        // A more advanced setup might involve filtering after collecting all potential matches.
+
+        const glob = new Glob(pattern)
+        console.log(`  Scanning for pattern: "${pattern}"`)
+        for await (const file of glob.scan('.')) {
+            // Scan from cwd
+            // glob.scan(".") returns paths relative to the scan root, which is cwd here.
+            // So, 'file' is already relative to cwd.
+            matchedFilePaths.add(file)
+        }
     }
 
+    // Convert Set to Array and sort for consistent order (optional but nice)
+    const filesToInclude = Array.from(matchedFilePaths).sort()
+
     if (filesToInclude.length === 0) {
-        console.log('No files found matching the patterns.')
-        await Bun.write(config.outputFilePath, '# No files matched the provided patterns.\n')
+        console.log('No files found matching any of the patterns.')
+        await Bun.write(config.outputFilePath, '# No files matched any of the provided patterns.\n')
         return
     }
 
-    console.log(`Found ${filesToInclude.length} file(s):`)
+    console.log(`\nFound ${filesToInclude.length} unique file(s) to include:`)
     filesToInclude.forEach(file => console.log(`  - ${file}`))
 
     let finalMarkdownContent = ``
@@ -114,14 +127,16 @@ async function generateContextFile(config: ResolvedAiContextConfig): Promise<voi
     finalMarkdownContent += `<!-- Config file: ${path.relative(cwd, config.configFilePath)} -->\n\n`
 
     for (const relativeFilePath of filesToInclude) {
-        const absoluteFilePath = path.resolve(cwd, relativeFilePath) // Get absolute path for reading
+        // Since relativeFilePath is already relative to cwd from glob.scan(".")
+        const absoluteFilePath = path.resolve(cwd, relativeFilePath)
         try {
             const fileContent = await Bun.file(absoluteFilePath).text()
-            // Normalize path separators for the comment, especially for Windows
             const normalizedPathComment = relativeFilePath.replace(/\\/g, '/')
 
             finalMarkdownContent += `// path: ${normalizedPathComment}\n`
-            finalMarkdownContent += '```\n' // Start of a code block
+            // Add a hint for the language if possible, based on extension
+            const extension = path.extname(normalizedPathComment).substring(1)
+            finalMarkdownContent += `\`\`\`${extension}\n` // Add language hint to code block
             finalMarkdownContent += `${fileContent.trim()}\n`
             finalMarkdownContent += '```\n\n'
         } catch (error) {
@@ -132,7 +147,6 @@ async function generateContextFile(config: ResolvedAiContextConfig): Promise<voi
     }
 
     try {
-        // Bun.write automatically creates parent directories if they don't exist.
         await Bun.write(config.outputFilePath, finalMarkdownContent)
         console.log(`\n✅ Successfully wrote context to '${config.outputFilePath}'`)
     } catch (error) {
