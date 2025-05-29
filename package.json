@@ -6,7 +6,7 @@
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "bin": {
-        "aictx": "./dist/cli.js"
+        "ai-context": "./dist/cli.js"
     },
     "scripts": {
         "dev": "bun src/cli.ts",
@@ -21,8 +21,16 @@
         "developer-tools",
         "llm"
     ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dawichi/ai-context.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dawichi/ai-context/issues"
+    },
+    "homepage": "https://github.com/dawichi/ai-context#readme",
     "author": "@dawichi",
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "devDependencies": {
         "@types/bun": "latest"
     },
