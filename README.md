@@ -1,13 +1,13 @@
-# ai-context 🤖📝
+# ai-context-builder 🤖📝
 
 **Easily generate comprehensive AI prompt context from your codebase. Define sources, get a Markdown file.**
 
-[![npm version](https://badge.fury.io/js/ai-context.svg)](https://badge.fury.io/js/ai-context)
+[![npm version](https://badge.fury.io/js/ai-context-builder.svg)](https://badge.fury.io/js/ai-context-builder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-`ai-context` is a command-line interface (CLI) tool designed to help software engineers efficiently gather and structure code context for use with AI assistants and Large Language Models (LLMs).
+`ai-context-builder` is a command-line interface (CLI) tool designed to help software engineers efficiently gather and structure code context for use with AI assistants and Large Language Models (LLMs).
 
-## 🤔 Why `ai-context`?
+## 🤔 Why `ai-context-builder`?
 
 When working with AI to assist in software development, developers often find themselves in one of two modes:
 
@@ -21,7 +21,7 @@ Many experienced developers prefer the second mode for its precision and control
 -   Losing track of which snippet came from where.
 -   Repeating this process every time the code changes or a new, similar task arises.
 
-`ai-context` solves this by allowing you to define your context sources once in a configuration file. Then, with a single command, it bundles all specified code into a structured Markdown file, ready to be pasted into your AI chat or used via an API.
+`ai-context-builder` solves this by allowing you to define your context sources once in a configuration file. Then, with a single command, it bundles all specified code into a structured Markdown file, ready to be pasted into your AI chat or used via an API.
 
 **Use Cases:**
 
@@ -33,7 +33,7 @@ Many experienced developers prefer the second mode for its precision and control
 
 ## ✨ Features
 
--   **Declarative Context Definition:** Define which files to include using a simple `ai-context.config.ts` file.
+-   **Declarative Context Definition:** Define which files to include using a simple `ai-context-builder.config.ts` file.
 -   **Glob Pattern Support:** Use powerful glob patterns (e.g., `src/**/*.ts`, `!src/**/*.spec.ts`) to specify file sets.
 -   **Single Markdown Output:** Concatenates all specified file contents into one organized Markdown file.
 -   **Clear File Path Comments:** Each included file's content is preceded by a `// path: path/to/file.ext` comment, making it easy for both you and the AI to identify the source.
@@ -43,34 +43,34 @@ Many experienced developers prefer the second mode for its precision and control
 
 ## 🚀 Installation & Usage
 
-The easiest way to use `ai-context` is with `npx` (or `bunx`), which requires no global installation:
+The easiest way to use `ai-context-builder` is with `npx` (or `bunx`), which requires no global installation:
 
 ```bash
-npx ai-context [options]
+npx ai-context-builder [options]
 ```
 
 Or, using Bun's bunx:
 
 ```bash
-bunx ai-context [options]
+bunx ai-context-builder [options]
 ```
 
 Alternatively, you can install it globally (once published to npm):
 
 ```bash
-npm install -g ai-context
+npm install -g ai-context-builder
 # or
-bun install -g ai-context
+bun install -g ai-context-builder
 ```
 
 ## ⚙️ Configuration
 
-`ai-context` uses a TypeScript configuration file, typically named `ai-context.config.ts`, in the root of your project.
+`ai-context-builder` uses a TypeScript configuration file, typically named `ai-context-builder.config.ts`, in the root of your project.
 
-Example `ai-context.config.ts`:
+Example `ai-context-builder.config.ts`:
 
 ```ts
-// ai-context.config.ts
+// ai-context-builder.config.ts
 
 // Interface for type safety (optional but recommended)
 export interface AiContextUserConfig {
@@ -108,13 +108,13 @@ export default config
 ## 💻 CLI Options
 
 ```txt
-Usage: ai-context [options]
+Usage: ai-context-builder [options]
 
 Easily generate comprehensive AI prompt context from your codebase. Define sources, get a Markdown file.
 
 Options:
   -V, --version        output the version number
-  -c, --config <path>  Path to the configuration file (e.g., ai-context.config.ts) (default: "ai-context.config.ts")
+  -c, --config <path>  Path to the configuration file (e.g., ai-context-builder.config.ts) (default: "ai-context-builder.config.ts")
   -o, --output <path>  Path for the output Markdown file (default: "prompt.md", or value from config file)
   -h, --help           display help for command
 
@@ -123,15 +123,15 @@ Options:
 ### Precedence for Output Path:
 
 1. Value from `--output` CLI flag.
-2. Value from `output` property in `ai-context.config.ts`.
+2. Value from `output` property in `ai-context-builder.config.ts`.
 3. Default: `prompt.md`.
 
 ## 🛠️ Example Workflow
 
-1. **Create a configuration file** in your project root named `ai-context.config.ts`:
+1. **Create a configuration file** in your project root named `ai-context-builder.config.ts`:
 
 ```ts
-// ai-context.config.ts
+// ai-context-builder.config.ts
 const config = {
     patterns: ['src/feature-x/**/*.ts', 'src/shared/utils.ts'],
     output: 'feature-x-context.md',
@@ -142,10 +142,10 @@ export default config
 2. **Run the CLI** to generate the context file:
 
 ```bash
-npx ai-context
+npx ai-context-builder
 ```
 
-(If your config file is named differently or located elsewhere, use `npx ai-context -c path/to/your/config.ts`)
+(If your config file is named differently or located elsewhere, use `npx ai-context-builder -c path/to/your/config.ts`)
 
 3. **Find your context file:** A file named `feature-x-context.md` will be created in your project root.
 
@@ -153,7 +153,7 @@ npx ai-context
 
 ## 🔮 Future Features & Roadmap
 
-We have several exciting features planned to make `ai-context` even more powerful:
+We have several exciting features planned to make `ai-context-builder` even more powerful:
 
 -   **Advanced Glob Negation/Exclusion:** More sophisticated handling of include/exclude patterns across the entire `patterns` array (e.g., ensuring `!pattern` always subtracts from the set of files matched by preceding positive patterns).
 
@@ -165,7 +165,7 @@ We have several exciting features planned to make `ai-context` even more powerfu
 
 -   **Automated Tests:** Implement a comprehensive test suite for greater stability and easier contributions.
 
--   **Pre-defined Context "Sets":** Allow defining multiple named context "sets" or "profiles" within a single `ai-context.config.ts` file, and select one via a CLI flag (e.g., `ai-context --profile api-refactor`).
+-   **Pre-defined Context "Sets":** Allow defining multiple named context "sets" or "profiles" within a single `ai-context-builder.config.ts` file, and select one via a CLI flag (e.g., `ai-context-builder --profile api-refactor`).
 
 -   **Token Count Estimation:** Optionally estimate the token count of the generated context to help users stay within LLM limits.
 

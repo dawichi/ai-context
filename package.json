@@ -1,12 +1,12 @@
 {
-    "name": "ai-context",
+    "name": "ai-context-builder",
     "version": "0.1.0",
     "description": "Easily generate comprehensive AI prompt context from your codebase. Define sources, get a Markdown file.",
     "type": "module",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "bin": {
-        "ai-context": "./dist/cli.js"
+        "ai-context-builder": "./dist/cli.js"
     },
     "scripts": {
         "dev": "bun src/cli.ts",
@@ -23,12 +23,12 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/dawichi/ai-context.git"
+        "url": "git+https://github.com/dawichi/ai-context-builder.git"
     },
     "bugs": {
-        "url": "https://github.com/dawichi/ai-context/issues"
+        "url": "https://github.com/dawichi/ai-context-builder/issues"
     },
-    "homepage": "https://github.com/dawichi/ai-context#readme",
+    "homepage": "https://github.com/dawichi/ai-context-builder#readme",
     "author": "@dawichi",
     "license": "GPL-3.0-or-later",
     "devDependencies": {

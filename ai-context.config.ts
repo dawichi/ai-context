@@ -1,4 +1,4 @@
-// ai-context.config.ts
+// ai-context-builder.config.ts
 // This is an example of what a user would create.
 
 interface AiContextConfig {
