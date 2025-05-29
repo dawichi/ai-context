@@ -1,11 +1,37 @@
 {
     "name": "ai-context",
-    "module": "src/index.ts",
+    "version": "0.1.0",
+    "description": "Easily generate comprehensive AI prompt context from your codebase. Define sources, get a Markdown file.",
     "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "bin": {
+        "aictx": "./dist/cli.js"
+    },
+    "scripts": {
+        "dev": "bun run src/cli.ts",
+        "build": "bun build ./src/cli.ts --outdir ./dist --target bun",
+        "prepublishOnly": "bun run build"
+    },
+    "keywords": [
+        "ai",
+        "context",
+        "prompt",
+        "cli",
+        "developer-tools",
+        "llm"
+    ],
+    "author": "@dawichi",
+    "license": "MIT",
     "devDependencies": {
         "@types/bun": "latest"
     },
     "peerDependencies": {
         "typescript": "^5.0.0"
-    }
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ]
 }
